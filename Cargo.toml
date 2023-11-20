@@ -3,6 +3,9 @@ name = "hv0-14-tls-eof"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-rustls = "0.24.1"
+rustls-pemfile = "1.0.4"
+rustls = "0.21.9"
+hyper = { version = "0.14", features = ["full"] }

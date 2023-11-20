@@ -1,14 +1,10 @@
+use hyper::service::{make_service_fn, service_fn};
+use hyper::{Body, Request, Response};
 use std::convert::Infallible;
 use std::net::SocketAddr;
 
-use http_body_util::Full;
-use hyper::body::Bytes;
-use hyper::service::service_fn;
-use hyper::{Request, Response};
-use hyper_util::rt::TokioIo;
-
-async fn hello(_: Request<hyper::body::Incoming>) -> Result<Response<Full<Bytes>>, Infallible> {
-    Ok(Response::new(Full::new(Bytes::from("Hello, World!"))))
+async fn hello_world(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    Ok(Response::new("Hello, World".into()))
 }
 
 #[tokio::main]
@@ -30,16 +26,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
             }
         };
 
-        let io = TokioIo::new(stream);
+        let make_svc = make_service_fn(|_conn| {
+            let service = service_fn(hello_world);
+            async { Ok::<_, Infallible>(service) }
+        });
 
         tokio::task::spawn(async move {
-            if let Err(err) = hyper::server::conn::http2::Builder::new(
-                hyper_util::rt::tokio::TokioExecutor::new(),
-            )
-            .serve_connection(io, service_fn(hello))
-            .await
+            if let Err(err) = hyper::server::conn::Http::new()
+                .serve_connection(stream, make_svc)
+                .await
             {
-                println!("Error serving connection: {:?}", err);
+                eprintln!("Error serving connection: {:?}", err);
             }
         });
     }
