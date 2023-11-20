@@ -1,11 +1,5 @@
-use hyper::service::{make_service_fn, service_fn};
-use hyper::{Body, Request, Response};
-use std::convert::Infallible;
+use hyper::Response;
 use std::net::SocketAddr;
-
-async fn hello_world(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    Ok(Response::new("Hello, World".into()))
-}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
@@ -26,14 +20,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
             }
         };
 
-        let make_svc = make_service_fn(|_conn| {
-            let service = service_fn(hello_world);
-            async { Ok::<_, Infallible>(service) }
+        let svc_fn = hyper::service::service_fn(|_req| async {
+            Ok::<_, hyper::Error>(Response::new(hyper::Body::from("Hello, World")))
         });
 
         tokio::task::spawn(async move {
             if let Err(err) = hyper::server::conn::Http::new()
-                .serve_connection(stream, make_svc)
+                .serve_connection(stream, svc_fn)
                 .await
             {
                 eprintln!("Error serving connection: {:?}", err);
