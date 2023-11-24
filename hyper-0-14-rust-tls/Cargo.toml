@@ -1,5 +1,5 @@
 [package]
-name = "hv0-14-tls-eof"
+name =  "hyper-0-14-rust-tls"
 version = "0.1.0"
 edition = "2021"
 

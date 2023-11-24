@@ -205,17 +205,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df3b46402a9d5adb4c86a0cf463f42e19994e3ee891101b1841f30a545cb49a9"
 
 [[package]]
-name = "hv0-14-tls-eof"
-version = "0.1.0"
-dependencies = [
- "hyper",
- "rustls",
- "rustls-pemfile",
- "tokio",
- "tokio-rustls",
-]
-
-[[package]]
 name = "hyper"
 version = "0.14.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -237,6 +226,17 @@ dependencies = [
  "tower-service",
  "tracing",
  "want",
+]
+
+[[package]]
+name = "hyper-0-14-rust-tls"
+version = "0.1.0"
+dependencies = [
+ "hyper",
+ "rustls",
+ "rustls-pemfile",
+ "tokio",
+ "tokio-rustls",
 ]
 
 [[package]]
