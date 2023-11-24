@@ -13,13 +13,11 @@ async fn hello(_: Request<hyper::body::Incoming>) -> Result<Response<Full<Bytes>
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    /*
     let subscriber = tracing_subscriber::FmtSubscriber::builder()
         .with_ansi(false)
         .with_max_level(tracing::Level::TRACE)
         .finish();
     tracing::subscriber::set_global_default(subscriber).unwrap();
-    */
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     let accept_tls = configure_tls(PEM);
