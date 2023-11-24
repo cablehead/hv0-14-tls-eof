@@ -229,7 +229,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "hyper-0-14-rust-tls"
+name = "hyper-0-14-rustls"
 version = "0.1.0"
 dependencies = [
  "hyper",

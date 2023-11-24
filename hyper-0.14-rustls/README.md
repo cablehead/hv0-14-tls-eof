@@ -1,6 +1,6 @@
-# hyper-with-tls/hyper-0.14-rust-tls
+# hyper-with-tls/hyper-0.14-rustls
 
-- Hyper: v0.14 with rust-tls
+- Hyper: v0.14 with rustls
 
 ## HTTP/2
 
